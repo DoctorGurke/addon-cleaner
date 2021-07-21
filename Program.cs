@@ -1,18 +1,15 @@
 ﻿using System;
 using System.IO;
+using AddonCleaner.Type;
 
-namespace asset_cleaner_cli {
+namespace AddonCleaner {
 	class Program {
 		static void Main(string[] args) {
 			//"C:\Users\docgu\Desktop\addon"
 			DirectoryInfo addonDir = new("C:\\Users\\docgu\\Desktop\\addon");
-			var rootNode = new DirectoryNode("addon", addonDir);
+			var rootNode = new DirectoryNode(addonDir);
 
 			rootNode.PrintTree();
-
-			//foreach(var item in rootNode.directories) {
-			//	System.Console.WriteLine(item.name);
-			//}
 		}
 	}
 }
