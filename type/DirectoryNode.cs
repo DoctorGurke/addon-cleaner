@@ -9,7 +9,7 @@ namespace AddonCleaner.Type {
 		public List<File> files = new();
 		public List<DirectoryNode> directories = new();
 
-		public DirectoryNode(DirectoryInfo info, DirectoryNode node, int indent = 0) {
+		public DirectoryNode(DirectoryInfo info, DirectoryNode node = null, int indent = 0) {
 			this.self = new Directory(info, this);
 			this.node = node;
 			this.indent = indent;
@@ -44,7 +44,7 @@ namespace AddonCleaner.Type {
 				self.enabled = false;
 
 			if(ascending) {
-				node.VerifyIntegrity(ascending);
+				node?.VerifyIntegrity(ascending);
 			}
 		}
 

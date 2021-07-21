@@ -15,7 +15,7 @@ namespace AddonCleaner.Type {
 		private bool VerifyDirectory() {
 			switch(info.Name) {
 				case "obj":
-				case "Propterties":
+				case "Properties":
 					return false;
 			}
 			return true;
