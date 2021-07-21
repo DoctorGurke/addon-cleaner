@@ -4,11 +4,11 @@ namespace AddonCleaner.Type {
 		public bool enabled;
 		public void Enable() {
 			enabled = true;
-			node.VerifyIntegrity();
+			node.VerifyIntegrity(true);
 		}
 		public void Disable() {
 			enabled = false;
-			node.VerifyIntegrity();
+			node.VerifyIntegrity(true);
 		}
 	}
 }
