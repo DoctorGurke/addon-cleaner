@@ -9,10 +9,11 @@ namespace AddonCleaner.Type {
 		public List<DirectoryNode> directories = new();
 
 		public DirectoryNode(DirectoryInfo info, int indent = 0) {
-			this.self = new Directory(info);
+			this.self = new Directory(info, this);
 			this.indent = indent;
 			foreach(var file in info.GetFiles()) {
-				this.files.Add(new File(file));
+				var newFile = new File(file, this);
+				this.files.Add(newFile);
 			}
 			foreach(var dir in info.GetDirectories()) {
 				this.directories.Add(new DirectoryNode(dir, indent + 1));
@@ -20,11 +21,14 @@ namespace AddonCleaner.Type {
 			VerifyIntegrity();
 		}
 
-		private void VerifyIntegrity() {
+		public void VerifyIntegrity() {
 			// empty folders should be disabled
 			if(files.Count <= 0 && directories.Count <= 0) {
 				self.enabled = false;
 			}
+
+			// dirty recursive way to check if a directorie's files and sub directories are ALL disabled
+			// in this case, disable it as well
 			var check = false;
 			foreach(var dir in directories) {
 				if(dir.self.enabled)

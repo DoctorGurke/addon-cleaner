@@ -1,14 +1,13 @@
 using System.IO;
 
 namespace AddonCleaner.Type {
-	public class File {
-		public FileInfo info;
-		public bool enabled;
+	public class File : Item {
+		public readonly FileInfo info;
 
-		public File(FileInfo info) {
+		public File(FileInfo info, DirectoryNode node) {
 			this.info = info;
+			this.node = node;
 			this.enabled = VerifyFile();
-
 		}
 
 		// whitelisted default file extensions

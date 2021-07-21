@@ -9,7 +9,8 @@ namespace AddonCleaner {
 			DirectoryInfo addonDir = new("C:\\Users\\docgu\\Desktop\\addon");
 			var rootNode = new DirectoryNode(addonDir);
 
-			rootNode.PrintTree();
+			//rootNode.PrintTree();
+			System.Console.WriteLine(rootNode.self.info.FullName);
 		}
 	}
 }

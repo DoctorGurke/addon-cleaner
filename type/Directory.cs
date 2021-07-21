@@ -1,14 +1,15 @@
 using System.IO;
 
 namespace AddonCleaner.Type {
-	public class Directory {
-		public DirectoryInfo info;
-		public bool enabled;
+	public class Directory : Item {
+		public readonly DirectoryInfo info;
 
-		public Directory(DirectoryInfo info) {
+		public Directory(DirectoryInfo info, DirectoryNode node) {
 			this.info = info;
+			this.node = node;
 			this.enabled = VerifyDirectory();
 		}
+
 
 		// blacklisted directories
 		private bool VerifyDirectory() {
