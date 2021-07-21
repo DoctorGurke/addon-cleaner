@@ -11,6 +11,7 @@ namespace AddonCleaner.Type {
 
 		}
 
+		// whitelisted default file extensions
 		private bool VerifyFile() {
 			switch(info.Extension) {
 				// assets
