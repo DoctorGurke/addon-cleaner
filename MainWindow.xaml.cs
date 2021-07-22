@@ -17,7 +17,7 @@ using System.IO;
 
 namespace AddonCleaner {
     public partial class MainWindow : Window {
-		private RichTextBox Output;
+		private static RichTextBox Output;
 
         public MainWindow() {
             InitializeComponent();
@@ -28,12 +28,13 @@ namespace AddonCleaner {
 
 			//rootNode.PrintTree();
 			//System.Console.WriteLine(rootNode.self.info.FullName);
-			foreach(var path in rootNode.GetFilesRecursively()) {
-				PrintToConsole(path);
-			}
+			rootNode.PrintTree();
+			//foreach(var path in rootNode.GetFilesRecursively()) {
+			//	PrintToConsole(path);
+			//}
 		}
 
-		public void PrintToConsole(string text) {
+		public static void PrintToConsole(string text) {
 			Application.Current.Dispatcher.Invoke(() => {
 				Output.Document.Blocks.Add(new Paragraph(new Run(text)));
 				Output.ScrollToEnd();

@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace AddonCleaner.Type {
 	public class DirectoryNode {
@@ -25,12 +27,18 @@ namespace AddonCleaner.Type {
 		}
 
 		public void VerifyIntegrity(bool ascending = false) {
+
+			if(!self.enabled) {
+				DisableRecursively();
+				return;
+			}
+
 			// empty folders should be disabled
 			if(files.Count <= 0 && directories.Count <= 0) {
 				self.enabled = false;
 			}
 
-			// dirty recursive way to check if a directorie's files and sub directories are ALL disabled
+			// dirty recursive way to check if a directory's files and sub directories are ALL disabled
 			// in this case, disable it as well
 			var check = false;
 			foreach(var dir in directories) {
@@ -49,19 +57,45 @@ namespace AddonCleaner.Type {
 			}
 		}
 
-		public void PrintTree() {
-			for(int i = 0; i < indent; i++) {
-				System.Console.Write("\t");
-			}
-			System.Console.WriteLine($"d {self.info.Name} {self.enabled}");
-			foreach(var dir in directories) {
-				dir.PrintTree();
-			}
+		public void EnableRecursively() {
 			foreach(var file in files) {
-				for(int i = 0; i < indent + 1; i++) {
-					System.Console.Write("\t");
+				file.enabled = true;
+			}
+			foreach(var dir in directories) {
+				dir.self.enabled = true;
+				dir.node.EnableRecursively();
+			}
+		}
+
+		public void DisableRecursively() {
+			foreach(var file in files) {
+				file.enabled = false;
+			}
+			foreach(var dir in directories) {
+				dir.self.enabled = false;
+				dir.DisableRecursively();
+			}
+		}
+
+		public void PrintTree() {
+			{
+				var indentString = "";
+				for(int i = 0; i < indent; i++) {
+					indentString += "\t";
 				}
-				System.Console.WriteLine($"f {file.info.Name} {file.enabled}");
+				MainWindow.PrintToConsole($"{indentString}d {self.info.Name} {self.enabled}");
+				foreach(var dir in directories) {
+					dir.PrintTree();
+				}
+			}
+			{
+				foreach(var file in files) {
+					var indentString = "";
+					for(int i = 0; i < indent + 1; i++) {
+						indentString += "\t";
+					}
+					MainWindow.PrintToConsole($"{indentString}f {file.info.Name} {file.enabled}");
+				}
 			}
 		}
 

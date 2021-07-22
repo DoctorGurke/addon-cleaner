@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:addon_cleaner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="1200">
     <Window.Resources>
         <Style TargetType="{x:Type RichTextBox}">
             <Setter Property="BorderThickness" Value="0"/>
