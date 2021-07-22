@@ -10,7 +10,10 @@ namespace AddonCleaner {
 			var rootNode = new DirectoryNode(addonDir);
 
 			//rootNode.PrintTree();
-			System.Console.WriteLine(rootNode.self.info.FullName);
+			//System.Console.WriteLine(rootNode.self.info.FullName);
+			foreach(var path in rootNode.GetFilesRecursively()) {
+				System.Console.WriteLine(path);
+			}
 		}
 	}
 }

@@ -10,7 +10,6 @@ namespace AddonCleaner.Type {
 			this.enabled = VerifyDirectory();
 		}
 
-
 		// blacklisted directories
 		private bool VerifyDirectory() {
 			switch(info.Name) {

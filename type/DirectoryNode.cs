@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace AddonCleaner.Type {
 	public class DirectoryNode {
@@ -62,6 +63,19 @@ namespace AddonCleaner.Type {
 				}
 				System.Console.WriteLine($"f {file.info.Name} {file.enabled}");
 			}
+		}
+
+		public string[] GetFilesRecursively(HashSet<string> fileList = null) {
+			var set = fileList;
+			if(set == null)
+				set = new HashSet<string>();
+			foreach(var file in files.Where((f) => f.enabled)) {
+				set.Add(file.info.FullName);
+			}
+			foreach(var dir in directories.Where((d) => d.self.enabled)) {
+				dir.GetFilesRecursively(set);
+			}
+			return set.ToArray();
 		}
 	}
 }
