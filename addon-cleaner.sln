@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31321.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "addon-cleaner", "addon-cleaner.csproj", "{0374A9CF-DAB2-404B-A296-D5EDC168CBEC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{90444E74-DF7C-4B6B-AA92-A1D224F1BA3D}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0374A9CF-DAB2-404B-A296-D5EDC168CBEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0374A9CF-DAB2-404B-A296-D5EDC168CBEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0374A9CF-DAB2-404B-A296-D5EDC168CBEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0374A9CF-DAB2-404B-A296-D5EDC168CBEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CB74DEAE-51E3-46D2-9A3E-4CE00162AE86}
+	EndGlobalSection
+EndGlobal
