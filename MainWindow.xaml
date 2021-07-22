@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:addon_cleaner"
+        xmlns:local="clr-namespace:AddonCleaner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="1200">
+        Title="MainWindow" Height="800" Width="1200">
     <Window.Resources>
         <Style TargetType="{x:Type RichTextBox}">
             <Setter Property="BorderThickness" Value="0"/>
@@ -13,7 +13,7 @@
         </Style>
     </Window.Resources>
     <Grid>
-        <RichTextBox x:Name="debugoutput" Margin="0,0,0,0" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
+        <RichTextBox x:Name="debugoutput" Margin="0, 0, 0, 0" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
             <FlowDocument>
             </FlowDocument>
             <RichTextBox.Resources>
