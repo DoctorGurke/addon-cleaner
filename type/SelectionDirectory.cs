@@ -19,13 +19,5 @@ namespace AddonCleaner.Type {
 			}
 			return true;
 		}
-
-		public override void Enable() {
-			base.Enable();
-		}
-
-		public override void Disable() {
-			base.Disable();
-		}
 	}
 }

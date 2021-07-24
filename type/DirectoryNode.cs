@@ -50,7 +50,8 @@ namespace AddonCleaner.Type {
 					check = true;
 			}
 			if(!check)
-				self.enabled = false;
+				self.Disable();
+				//self.enabled = false;
 
 			if(ascending) {
 				node?.VerifyIntegrity(ascending);
@@ -59,20 +60,24 @@ namespace AddonCleaner.Type {
 
 		public void EnableRecursively() {
 			foreach(var file in files) {
-				file.enabled = true;
+				//file.enabled = true;
+				file.Enable(false);
 			}
 			foreach(var dir in directories) {
-				dir.self.enabled = true;
-				dir.node.EnableRecursively();
+				//dir.self.enabled = true;
+				dir.self.Enable(false);
+				dir.EnableRecursively();
 			}
 		}
 
 		public void DisableRecursively() {
 			foreach(var file in files) {
-				file.enabled = false;
+				//file.enabled = false;
+				file.Disable(false);
 			}
 			foreach(var dir in directories) {
-				dir.self.enabled = false;
+				//dir.self.enabled = false;
+				dir.self.Disable(false);
 				dir.DisableRecursively();
 			}
 		}

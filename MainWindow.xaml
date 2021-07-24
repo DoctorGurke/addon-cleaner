@@ -32,9 +32,11 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <ScrollViewer CanContentScroll="True" PanningMode="HorizontalOnly" SnapsToDevicePixels="True" HorizontalScrollBarVisibility="Visible" DataContext="{Binding}" Grid.Row="1" Grid.ColumnSpan="3" Margin="10, 0, 10, 10">
-            <StackPanel Name="SelectionItemPanel">
-            </StackPanel>
-        </ScrollViewer>
+        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="Aqua" BorderThickness="1" Margin="10, 0, 10, 10">
+            <ScrollViewer CanContentScroll="True" SnapsToDevicePixels="True" DataContext="{Binding}">
+                <StackPanel Name="SelectionItemPanel">
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
     </Grid>
 </Window>
