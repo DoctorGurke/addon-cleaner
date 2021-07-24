@@ -17,22 +17,32 @@ using System.IO;
 
 namespace AddonCleaner {
 
-	public partial class TestButton : Button {
+	public partial class SelectionNode : CheckBox {
 		public bool IsDirectory {
 			get { return (bool)GetValue(IsDirectoryProperty); }
 			set { SetValue(IsDirectoryProperty, value); }
 		}
 
-		// Using a DependencyProperty as the backing store for Property1.  
-		// This enables animation, styling, binding, etc...
-		public static readonly DependencyProperty IsDirectoryProperty = DependencyProperty.Register("Directory", typeof(bool), typeof(MainWindow));
+		private Item selectionItem;
+
+		public SelectionNode() {
+			this.Click += new RoutedEventHandler(selection_node_checked);
+		}
+
+		public void SetSelectionItem(Item selectionItem) {
+			this.selectionItem = selectionItem;
+		}
+
+		private static void selection_node_checked(object sender, RoutedEventArgs e) {
+			MainWindow.PrintToConsole($"{((SelectionNode)sender).IsDirectory}");
+		}
+
+		public static readonly DependencyProperty IsDirectoryProperty = DependencyProperty.Register("Directory", typeof(bool), typeof(SelectionNode));
 	}
 
 	public partial class MainWindow : Window {
 		private static RichTextBox Output;
 		private static Grid InputArea;
-
-		
 
 		public MainWindow() {
             InitializeComponent();
@@ -53,6 +63,7 @@ namespace AddonCleaner {
 		}
 
 		private static void InitTestButtons() {
+			/*
 			var button1 = new TestButton();
 			var style1 = new Style(typeof(Button));
 			var setter1 = new Setter(TestButton.IsDirectoryProperty, true);
@@ -84,12 +95,15 @@ namespace AddonCleaner {
 			Grid.SetRowSpan(button2, 1);
 
 			button2.Click += new RoutedEventHandler(button_test_click);
+			*/
 		}
 
 		private static void button_test_click(object sender, RoutedEventArgs e) {
+			/*
 			if(sender is TestButton button) {
 				PrintToConsole($"{button.IsDirectory}");
 			}
+			*/
 		}
 
 		public static void PrintToConsole(string text) {
