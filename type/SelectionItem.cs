@@ -1,5 +1,5 @@
 namespace AddonCleaner.Type {
-	public abstract class Item {
+	public abstract class SelectionItem {
 		public DirectoryNode node;
 		public bool enabled;
 

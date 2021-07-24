@@ -1,10 +1,10 @@
 using System.IO;
 
 namespace AddonCleaner.Type {
-	public class File : Item {
+	public class SelectionFile : SelectionItem {
 		public readonly FileInfo info;
 
-		public File(FileInfo info, DirectoryNode node) {
+		public SelectionFile(FileInfo info, DirectoryNode node) {
 			this.info = info;
 			this.node = node;
 			this.enabled = VerifyFile();

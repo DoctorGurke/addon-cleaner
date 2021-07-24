@@ -23,18 +23,28 @@ namespace AddonCleaner {
 			set { SetValue(IsDirectoryProperty, value); }
 		}
 
-		private Item selectionItem;
+		private SelectionItem selectionItem;
 
-		public SelectionNode() {
+		public SelectionNode(SelectionItem selectionItem) {
+			this.selectionItem = selectionItem;
+			this.IsChecked = this.selectionItem.enabled;
+			if(this.selectionItem is SelectionFile file) {
+				this.Content = "F " + file.info.Name;
+			} else if(this.selectionItem is SelectionDirectory dir) {
+				this.Content = "D " + dir.info.Name;
+			}
 			this.Click += new RoutedEventHandler(selection_node_checked);
 		}
 
-		public void SetSelectionItem(Item selectionItem) {
-			this.selectionItem = selectionItem;
-		}
-
 		private static void selection_node_checked(object sender, RoutedEventArgs e) {
-			MainWindow.PrintToConsole($"{((SelectionNode)sender).IsDirectory}");
+			if(sender is SelectionNode selection) {
+				if(selection.selectionItem is SelectionDirectory dir) {
+					// falling disable
+				} else if (selection.selectionItem is SelectionFile file) {
+					// verify ascending
+				}
+			}
+			//MainWindow.PrintToConsole($"{((SelectionNode)sender).IsDirectory}");
 		}
 
 		public static readonly DependencyProperty IsDirectoryProperty = DependencyProperty.Register("Directory", typeof(bool), typeof(SelectionNode));
@@ -42,28 +52,45 @@ namespace AddonCleaner {
 
 	public partial class MainWindow : Window {
 		private static RichTextBox Output;
-		private static Grid InputArea;
+		private static StackPanel MainPanel;
 
 		public MainWindow() {
             InitializeComponent();
 			Output = (RichTextBox)this.FindName("debugoutput");
-			InputArea = (Grid)this.FindName("MainGrid");
-
-			InitTestButtons();
+			MainPanel = (StackPanel)this.FindName("SelectionItemPanel");
 
 			DirectoryInfo addonDir = new("C:\\Users\\docgu\\Desktop\\addon");
 			var rootNode = new DirectoryNode(addonDir);
 
 			//rootNode.PrintTree();
 			//System.Console.WriteLine(rootNode.self.info.FullName);
-			rootNode.PrintTree();
+			//rootNode.PrintTree();
+			InitSelectionTree(rootNode);
 			//foreach(var path in rootNode.GetFilesRecursively()) {
 			//	PrintToConsole(path);
 			//}
 		}
 
+		private static void InitSelectionTree(DirectoryNode node) {
+			MainWindow.PrintToConsole($"{node.indent}d {node.self.info.Name} {node.self.enabled}");
+			var dirNode = new SelectionNode(node.self);
+			dirNode.Margin = new Thickness(node.indent * 25, 0, 0, 0);
+			MainPanel.Children.Add(dirNode);
+			foreach(var dir in node.directories) {
+				InitSelectionTree(dir);
+			}
+			foreach(var file in node.files) {
+				MainWindow.PrintToConsole($"{node.indent + 1}f {file.info.Name} {file.enabled}");
+				var fileNode = new SelectionNode(file);
+				fileNode.Margin = new Thickness((node.indent + 1) * 25, 0, 0, 0);//(node.indent + 1) * 5
+				
+				MainPanel.Children.Add(fileNode);
+			}
+		}
+
+		/*
 		private static void InitTestButtons() {
-			/*
+			
 			var button1 = new TestButton();
 			var style1 = new Style(typeof(Button));
 			var setter1 = new Setter(TestButton.IsDirectoryProperty, true);
@@ -95,16 +122,9 @@ namespace AddonCleaner {
 			Grid.SetRowSpan(button2, 1);
 
 			button2.Click += new RoutedEventHandler(button_test_click);
-			*/
+			
 		}
-
-		private static void button_test_click(object sender, RoutedEventArgs e) {
-			/*
-			if(sender is TestButton button) {
-				PrintToConsole($"{button.IsDirectory}");
-			}
-			*/
-		}
+		*/
 
 		public static void PrintToConsole(string text) {
 			Application.Current.Dispatcher.Invoke(() => {

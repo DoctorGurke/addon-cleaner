@@ -1,10 +1,10 @@
 using System.IO;
 
 namespace AddonCleaner.Type {
-	public class Directory : Item {
+	public class SelectionDirectory : SelectionItem {
 		public readonly DirectoryInfo info;
 
-		public Directory(DirectoryInfo info, DirectoryNode node) {
+		public SelectionDirectory(DirectoryInfo info, DirectoryNode node) {
 			this.info = info;
 			this.node = node;
 			this.enabled = VerifyDirectory();

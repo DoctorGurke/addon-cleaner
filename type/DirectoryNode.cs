@@ -7,17 +7,17 @@ using System.Windows.Controls;
 namespace AddonCleaner.Type {
 	public class DirectoryNode {
 		public DirectoryNode node;
-		public Directory self;
+		public SelectionDirectory self;
 		public int indent;
-		public List<File> files = new();
+		public List<SelectionFile> files = new();
 		public List<DirectoryNode> directories = new();
 
 		public DirectoryNode(DirectoryInfo info, DirectoryNode node = null, int indent = 0) {
-			this.self = new Directory(info, this);
+			this.self = new SelectionDirectory(info, this);
 			this.node = node;
 			this.indent = indent;
 			foreach(var file in info.GetFiles()) {
-				var newFile = new File(file, this);
+				var newFile = new SelectionFile(file, this);
 				this.files.Add(newFile);
 			}
 			foreach(var dir in info.GetDirectories()) {
@@ -78,7 +78,7 @@ namespace AddonCleaner.Type {
 		}
 
 		public void PrintTree() {
-			{
+			{ // scope for reusable indentString var
 				var indentString = "";
 				for(int i = 0; i < indent; i++) {
 					indentString += "\t";
@@ -88,14 +88,12 @@ namespace AddonCleaner.Type {
 					dir.PrintTree();
 				}
 			}
-			{
-				foreach(var file in files) {
-					var indentString = "";
-					for(int i = 0; i < indent + 1; i++) {
-						indentString += "\t";
-					}
-					MainWindow.PrintToConsole($"{indentString}f {file.info.Name} {file.enabled}");
+			foreach(var file in files) {
+				var indentString = "";
+				for(int i = 0; i < indent + 1; i++) {
+					indentString += "\t";
 				}
+				MainWindow.PrintToConsole($"{indentString}f {file.info.Name} {file.enabled}");
 			}
 		}
 
