@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace addon_cleaner
+namespace AddonCleaner
 {
     /// <summary>
     /// Interaction logic for App.xaml

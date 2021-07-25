@@ -3,8 +3,11 @@
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
-    <RootNamespace>addon_cleaner</RootNamespace>
     <UseWPF>true</UseWPF>
+    <RootNamespace>AddonCleaner</RootNamespace>
+    <AssemblyName>AddonCleaner</AssemblyName>
+    <StartupObject>AddonCleaner.App</StartupObject>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
 
 </Project>

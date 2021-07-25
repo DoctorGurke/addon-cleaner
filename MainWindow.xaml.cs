@@ -5,13 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using AddonCleaner.Type;
 using System.IO;
 
@@ -91,7 +86,7 @@ namespace AddonCleaner {
 			PrintToConsole("DEBUG OUTPUT:");
 
 			// init checkbox UI
-			InitSelectionTree(rootNode);
+			//InitSelectionTree(rootNode);
 		}
 
 		private static void InitSelectionTree(DirectoryNode node) {
@@ -116,6 +111,40 @@ namespace AddonCleaner {
 				Output.Document.Blocks.Add(new Paragraph(new Run(text)));
 				Output.ScrollToEnd();
 			});
+		}
+
+		private void OpenInputExplorer(object sender, RoutedEventArgs e) {
+			using(var dialog = new System.Windows.Forms.FolderBrowserDialog()) {
+				dialog.Description = "Select your Addon Directory";
+				dialog.UseDescriptionForTitle = true;
+
+				System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+				var myTextBlock = (RichTextBox)this.FindName("InputLocation");
+				if(myTextBlock != null && result.ToString() == "OK") {
+					myTextBlock.Document.Blocks.Clear();
+					myTextBlock.Document.Blocks.Add(new Paragraph(new Run(dialog.SelectedPath)));
+					MainPanel.Children.Clear();
+					DirectoryInfo addonDir = new(dialog.SelectedPath);
+					var rootNode = new DirectoryNode(addonDir);
+					InitSelectionTree(rootNode);
+				}
+			}
+		}
+
+		private void OpenOutputExplorer(object sender, RoutedEventArgs e) {
+			using(var dialog = new System.Windows.Forms.FolderBrowserDialog()) {
+				dialog.Description = "Select your Output Directory";
+				dialog.UseDescriptionForTitle = true;
+
+				System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+
+				var myTextBlock = (RichTextBox)this.FindName("OutputLocation");
+				if(myTextBlock != null && result.ToString() == "OK") {
+					myTextBlock.Document.Blocks.Clear();
+					myTextBlock.Document.Blocks.Add(new Paragraph(new Run(dialog.SelectedPath)));
+				}
+			}
 		}
 	}
 }

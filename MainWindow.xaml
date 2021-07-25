@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:AddonCleaner"
         mc:Ignorable="d"
-        Title="MainWindow" Height="650" Width="1000">
+        Title="Addon Cleaner" Height="650" Width="1000">
     <Window.Resources>
         <Style TargetType="{x:Type RichTextBox}">
             <Setter Property="BorderThickness" Value="0"/>
@@ -23,6 +23,7 @@
             <RowDefinition Height="150"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="100"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <RichTextBox  Padding="10" BorderBrush="Silver" BorderThickness="2" x:Name="debugoutput" VerticalScrollBarVisibility="Visible" IsReadOnly="True" Grid.RowSpan="1" Grid.Row="0" Grid.ColumnSpan="3" Margin="10,10,10,10">
             <FlowDocument>
@@ -44,7 +45,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="150"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="1*"/>
@@ -52,21 +53,23 @@
                 </Grid.RowDefinitions>
                 <Label Content="Input Folder (Addon)" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="0" Grid.Column="0"/>
                 <Label Content="Output Folder (Zip)" HorizontalAlignment="Left" VerticalAlignment="Center" Grid.Row="1" Grid.Column="0"/>
-                <Border Grid.Column="1" Grid.Row="0" BorderBrush="Silver" BorderThickness="1" Margin="5">
-                    <RichTextBox  Height="20" Width="auto" VerticalAlignment="Stretch" Margin="5, 0, 5, 0" Padding="0">
+                <Border Grid.Column="1" Grid.Row="0" BorderBrush="Silver" BorderThickness="1" Margin="5" Padding="2">
+                    <RichTextBox Name="InputLocation" Height="20" Width="auto" VerticalAlignment="Stretch" Margin="5, 0, 5, 0" Padding="0" HorizontalAlignment="Left">
                         <FlowDocument>
                         </FlowDocument>
                     </RichTextBox>
                 </Border>
-                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Silver" BorderThickness="1" Margin="5">
-                    <RichTextBox  Height="20" Width="auto" VerticalAlignment="Stretch" Margin="5, 0, 5, 0" Padding="0">
+                <Border Grid.Column="1" Grid.Row="1" BorderBrush="Silver" BorderThickness="1" Margin="5" Padding="2">
+                    <RichTextBox Name="OutputLocation" Height="20" Width="auto" VerticalAlignment="Stretch" Margin="5, 0, 5, 0" Padding="0" HorizontalAlignment="Left">
                         <FlowDocument>
                         </FlowDocument>
                     </RichTextBox>
                 </Border>
-                <Button Content="Browse..." Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Stretch" Margin="5"/>
-                <Button Content="Browse..." Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Margin="5"/>
+                <Button Click="OpenInputExplorer" Content="Browse..." Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="0" VerticalAlignment="Stretch" Margin="5"/>
+                <Button Click="OpenOutputExplorer" Content="Browse..." Grid.Column="2" HorizontalAlignment="Stretch" Grid.Row="1" VerticalAlignment="Stretch" Margin="5"/>
             </Grid>
         </Border>
+        <Button Margin="10, 0, 10, 10" Content="Long button bitch" Grid.Column="0" HorizontalAlignment="Stretch" Grid.Row="3" Grid.ColumnSpan="3" VerticalAlignment="Stretch"/>
+
     </Grid>
 </Window>
