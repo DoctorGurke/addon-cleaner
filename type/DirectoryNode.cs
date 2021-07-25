@@ -82,8 +82,10 @@ namespace AddonCleaner.Type {
 				file.Enable(false);
 			}
 			foreach(var dir in directories) {
-				dir.self.Enable(false);
-				dir.EnableRecursively();
+				if(!dir.CheckEmpty()) {
+					dir.self.Enable(false);
+					dir.EnableRecursively();
+				}
 			}
 		}
 

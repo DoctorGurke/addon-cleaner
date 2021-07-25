@@ -4,6 +4,8 @@ namespace AddonCleaner.Type {
 	public class SelectionDirectory : SelectionItem {
 		public readonly DirectoryInfo info;
 
+		public bool collapsed = false;
+
 		public SelectionDirectory(DirectoryInfo info, DirectoryNode node) {
 			this.info = info;
 			this.node = node;
