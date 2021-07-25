@@ -34,28 +34,39 @@ namespace AddonCleaner {
 				this.Content = "D " + dir.info.Name;
 			}
 			this.selectionItem.OnEnabledChanged += HandleCheckedChanged;
+
+			// we don't care about empty folders, do we? 
+			if(this.selectionItem.node.CheckEmpty()) {
+				this.IsEnabled = false;
+			}
 			
 			this.Click += new RoutedEventHandler(selection_node_checked);
 		}
 
 		private void HandleCheckedChanged(bool state) {
-			MainWindow.PrintToConsole($"{state}");
+			//MainWindow.PrintToConsole($"{state}");
 			IsChecked = state;
 		}
 
 		private static void selection_node_checked(object sender, RoutedEventArgs e) {
 			if(sender is SelectionNode selection) {
 				// switch statement cause why not, clean enough
-				switch(selection.IsChecked) {
-					case true: selection.selectionItem.Enable(); break;
-					case false: selection.selectionItem.Disable(); break;
-				}
+				
 				if(selection.selectionItem is SelectionDirectory dir) {
 					switch(selection.IsChecked) {
 						case true: dir.node.EnableRecursively(); break;
 						case false: dir.node.DisableRecursively(); break;
 					}
+				} else if(selection.selectionItem is SelectionFile file) {
+					switch(selection.IsChecked) {
+						case true: file.Enable(); break;
+						case false: file.Disable(); break;
+					}
 				}
+				// make sure ascending dir gets enabled/disabled accordingly
+				// example: all files are disabled = disable folder
+				//			folder is disabled but file is enabled = enable folders
+				selection.selectionItem.node.VerifyContents(true);
 			}
 			//MainWindow.PrintToConsole($"{((SelectionNode)sender).IsDirectory}");
 		}
@@ -82,7 +93,7 @@ namespace AddonCleaner {
 		private static void InitSelectionTree(DirectoryNode node) {
 			//MainWindow.PrintToConsole($"{node.indent}d {node.self.info.Name} {node.self.enabled}");
 			var dirNode = new SelectionNode(node.self);
-			dirNode.Margin = new Thickness(node.indent * 25, 0, 0, 0);
+			dirNode.Margin = new Thickness(node.indent * 35, 0, 0, 0);
 			MainPanel.Children.Add(dirNode);
 			foreach(var dir in node.directories) {
 				InitSelectionTree(dir);
@@ -90,7 +101,7 @@ namespace AddonCleaner {
 			foreach(var file in node.files) {
 				//MainWindow.PrintToConsole($"{node.indent + 1}f {file.info.Name} {file.enabled}");
 				var fileNode = new SelectionNode(file);
-				fileNode.Margin = new Thickness((node.indent + 1) * 25, 0, 0, 0);//(node.indent + 1) * 5
+				fileNode.Margin = new Thickness((node.indent + 1) * 35, 0, 0, 0);//(node.indent + 1) * 5
 				
 				MainPanel.Children.Add(fileNode);
 			}

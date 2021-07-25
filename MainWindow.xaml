@@ -32,7 +32,7 @@
                 </Style>
             </RichTextBox.Resources>
         </RichTextBox>
-        <Border Grid.Row="1" Grid.ColumnSpan="3" BorderBrush="Aqua" BorderThickness="1" Margin="10, 0, 10, 10">
+        <Border Grid.Row="1" Padding="10" Grid.ColumnSpan="3" BorderBrush="Aqua" BorderThickness="1" Margin="10, 0, 10, 10">
             <ScrollViewer CanContentScroll="True" SnapsToDevicePixels="True" DataContext="{Binding}">
                 <StackPanel Name="SelectionItemPanel">
                 </StackPanel>
