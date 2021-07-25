@@ -79,19 +79,10 @@ namespace AddonCleaner {
 			Output = (RichTextBox)this.FindName("debugoutput");
 			MainPanel = (StackPanel)this.FindName("SelectionItemPanel");
 
-			DirectoryInfo addonDir = new("C:\\Users\\docgu\\Desktop\\addon");
-			var rootNode = new DirectoryNode(addonDir);
-
-			//rootNode.PrintTree();
-
 			PrintToConsole("DEBUG OUTPUT:");
-
-			// init checkbox UI
-			//InitSelectionTree(rootNode);
 		}
 
 		private static void InitSelectionTree(DirectoryNode node) {
-			//MainWindow.PrintToConsole($"{node.indent}d {node.self.info.Name} {node.self.enabled}");
 			var dirNode = new SelectionNode(node.self);
 			dirNode.Margin = new Thickness(node.indent * 35, 0, 0, 3);
 			MainPanel.Children.Add(dirNode);
@@ -99,9 +90,8 @@ namespace AddonCleaner {
 				InitSelectionTree(dir);
 			}
 			foreach(var file in node.files) {
-				//MainWindow.PrintToConsole($"{node.indent + 1}f {file.info.Name} {file.enabled}");
 				var fileNode = new SelectionNode(file);
-				fileNode.Margin = new Thickness((node.indent + 1) * 35, 0, 0, 3);//(node.indent + 1) * 5
+				fileNode.Margin = new Thickness((node.indent + 1) * 35, 0, 0, 3);
 				
 				MainPanel.Children.Add(fileNode);
 			}
@@ -118,11 +108,13 @@ namespace AddonCleaner {
 		private void PackAddon(object sender, RoutedEventArgs e) {
 			var inputBox = (System.Windows.Controls.RichTextBox)this.FindName("InputLocation");
 			string inputLocation = new TextRange(inputBox.Document.ContentStart, inputBox.Document.ContentEnd).Text.Replace("\r\n", "");
+			// simple validate to check if the path is empty
 			if(inputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid input directory"); return; }
 			PrintToConsole($"input {inputLocation}");
 
 			var outputBox = (System.Windows.Controls.RichTextBox)this.FindName("OutputLocation");
 			string outputLocation = new TextRange(outputBox.Document.ContentStart, outputBox.Document.ContentEnd).Text.Replace("\r\n", "");
+			// simple validate to check if the path is empty
 			if(outputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid output directory"); return; }
 			PrintToConsole($"input {outputLocation}");
 
