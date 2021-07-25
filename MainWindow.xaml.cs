@@ -126,7 +126,11 @@ namespace AddonCleaner {
 			if(outputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid output directory"); return; }
 			PrintToConsole($"input {outputLocation}");
 
-			ZipFile.CreateFromDirectory(inputLocation, $"{outputLocation}.zip");
+			//todo:
+			// copy selected files/folders to a temp folder at outputLocation\\addon-release-temp
+			// then zip up and delete temp folder, done
+
+			ZipFile.CreateFromDirectory(inputLocation, $"{outputLocation}\\addon-release.zip");
 		}
 
 		private void OpenInputExplorer(object sender, RoutedEventArgs e) {
@@ -158,7 +162,7 @@ namespace AddonCleaner {
 				var myTextBlock = (RichTextBox)this.FindName("OutputLocation");
 				if(myTextBlock != null && result.ToString() == "OK") {
 					myTextBlock.Document.Blocks.Clear();
-					myTextBlock.Document.Blocks.Add(new Paragraph(new Run($"{dialog.SelectedPath}\\addon-release")));
+					myTextBlock.Document.Blocks.Add(new Paragraph(new Run(dialog.SelectedPath)));
 				}
 			}
 		}
