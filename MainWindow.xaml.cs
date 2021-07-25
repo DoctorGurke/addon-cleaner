@@ -9,6 +9,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using AddonCleaner.Type;
 using System.IO;
+using System.IO.Compression;
 
 namespace AddonCleaner {
 
@@ -106,11 +107,26 @@ namespace AddonCleaner {
 			}
 		}
 
-		public static void PrintToConsole(string text) {
+		public static void PrintToConsole(string text = null) {
+			if(text == null) return;
 			Application.Current.Dispatcher.Invoke(() => {
 				Output.Document.Blocks.Add(new Paragraph(new Run(text)));
 				Output.ScrollToEnd();
 			});
+		}
+
+		private void PackAddon(object sender, RoutedEventArgs e) {
+			var inputBox = (System.Windows.Controls.RichTextBox)this.FindName("InputLocation");
+			string inputLocation = new TextRange(inputBox.Document.ContentStart, inputBox.Document.ContentEnd).Text.Replace("\r\n", "");
+			if(inputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid input directory"); return; }
+			PrintToConsole($"input {inputLocation}");
+
+			var outputBox = (System.Windows.Controls.RichTextBox)this.FindName("OutputLocation");
+			string outputLocation = new TextRange(outputBox.Document.ContentStart, outputBox.Document.ContentEnd).Text.Replace("\r\n", "");
+			if(outputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid output directory"); return; }
+			PrintToConsole($"input {outputLocation}");
+
+			ZipFile.CreateFromDirectory(inputLocation, $"{outputLocation}.zip");
 		}
 
 		private void OpenInputExplorer(object sender, RoutedEventArgs e) {
@@ -142,7 +158,7 @@ namespace AddonCleaner {
 				var myTextBlock = (RichTextBox)this.FindName("OutputLocation");
 				if(myTextBlock != null && result.ToString() == "OK") {
 					myTextBlock.Document.Blocks.Clear();
-					myTextBlock.Document.Blocks.Add(new Paragraph(new Run(dialog.SelectedPath)));
+					myTextBlock.Document.Blocks.Add(new Paragraph(new Run($"{dialog.SelectedPath}\\addon-release")));
 				}
 			}
 		}
