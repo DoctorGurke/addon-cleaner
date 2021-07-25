@@ -29,9 +29,9 @@ namespace AddonCleaner {
 			this.selectionItem = selectionItem;
 			this.IsChecked = this.selectionItem.enabled;
 			if(this.selectionItem is SelectionFile file) {
-				this.Content = "F " + file.info.Name;
+				this.Content = "File | " + file.info.Name;
 			} else if(this.selectionItem is SelectionDirectory dir) {
-				this.Content = "D " + dir.info.Name;
+				this.Content = "Dir | " + dir.info.Name;
 			}
 			this.selectionItem.OnEnabledChanged += HandleCheckedChanged;
 
@@ -86,14 +86,18 @@ namespace AddonCleaner {
 			DirectoryInfo addonDir = new("C:\\Users\\docgu\\Desktop\\addon");
 			var rootNode = new DirectoryNode(addonDir);
 
-			rootNode.PrintTree();
+			//rootNode.PrintTree();
+
+			PrintToConsole("DEBUG OUTPUT:");
+
+			// init checkbox UI
 			InitSelectionTree(rootNode);
 		}
 
 		private static void InitSelectionTree(DirectoryNode node) {
 			//MainWindow.PrintToConsole($"{node.indent}d {node.self.info.Name} {node.self.enabled}");
 			var dirNode = new SelectionNode(node.self);
-			dirNode.Margin = new Thickness(node.indent * 35, 0, 0, 0);
+			dirNode.Margin = new Thickness(node.indent * 35, 0, 0, 3);
 			MainPanel.Children.Add(dirNode);
 			foreach(var dir in node.directories) {
 				InitSelectionTree(dir);
@@ -101,7 +105,7 @@ namespace AddonCleaner {
 			foreach(var file in node.files) {
 				//MainWindow.PrintToConsole($"{node.indent + 1}f {file.info.Name} {file.enabled}");
 				var fileNode = new SelectionNode(file);
-				fileNode.Margin = new Thickness((node.indent + 1) * 35, 0, 0, 0);//(node.indent + 1) * 5
+				fileNode.Margin = new Thickness((node.indent + 1) * 35, 0, 0, 3);//(node.indent + 1) * 5
 				
 				MainPanel.Children.Add(fileNode);
 			}
