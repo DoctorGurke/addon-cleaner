@@ -46,8 +46,6 @@ namespace AddonCleaner {
 
 		private static void selection_node_checked(object sender, RoutedEventArgs e) {
 			if(sender is SelectionNode selection) {
-				// switch statement cause why not, clean enough
-				
 				if(selection.selectionItem is SelectionDirectory dir) {
 					switch(selection.IsChecked) {
 						case true: dir.node.EnableRecursively(); break;
@@ -64,7 +62,6 @@ namespace AddonCleaner {
 				//			folder is disabled but file is enabled = enable folders
 				selection.selectionItem.node.VerifyContents(true);
 			}
-			//MainWindow.PrintToConsole($"{((SelectionNode)sender).IsDirectory}");
 		}
 
 		public static readonly DependencyProperty IsDirectoryProperty = DependencyProperty.Register("Directory", typeof(bool), typeof(SelectionNode));
@@ -73,6 +70,7 @@ namespace AddonCleaner {
 	public partial class MainWindow : Window {
 		private static RichTextBox Output;
 		private static StackPanel MainPanel;
+		private static DirectoryNode activeRootNode;
 
 		public MainWindow() {
             InitializeComponent();
@@ -83,6 +81,8 @@ namespace AddonCleaner {
 		}
 
 		private static void InitSelectionTree(DirectoryNode node) {
+			if(node.parentNode == null) // root node
+				activeRootNode = node;
 			var dirNode = new SelectionNode(node.self);
 			dirNode.Margin = new Thickness(node.indent * 35, 0, 0, 3);
 			MainPanel.Children.Add(dirNode);
@@ -110,19 +110,44 @@ namespace AddonCleaner {
 			string inputLocation = new TextRange(inputBox.Document.ContentStart, inputBox.Document.ContentEnd).Text.Replace("\r\n", "");
 			// simple validate to check if the path is empty
 			if(inputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid input directory"); return; }
-			PrintToConsole($"input {inputLocation}");
+			//PrintToConsole($"input {inputLocation}");
 
 			var outputBox = (System.Windows.Controls.RichTextBox)this.FindName("OutputLocation");
 			string outputLocation = new TextRange(outputBox.Document.ContentStart, outputBox.Document.ContentEnd).Text.Replace("\r\n", "");
 			// simple validate to check if the path is empty
 			if(outputLocation.Replace(" ", "") == "") { PrintToConsole("Invalid output directory"); return; }
-			PrintToConsole($"input {outputLocation}");
+			//PrintToConsole($"output {outputLocation}");
 
-			//todo:
-			// copy selected files/folders to a temp folder at outputLocation\\addon-release-temp
-			// then zip up and delete temp folder, done
+			var rootParentDir = activeRootNode.self.info.Parent.FullName;
 
-			ZipFile.CreateFromDirectory(inputLocation, $"{outputLocation}\\addon-release.zip");
+			// some fool proof last minute checks for directories etc
+			if(!Directory.Exists(rootParentDir))
+				return;
+
+			Directory.CreateDirectory($"{outputLocation}\\addon-release-temp");
+
+			CopyEnabledFiles(activeRootNode, rootParentDir, $"{outputLocation}\\addon-release-temp");
+			try {
+				ZipFile.CreateFromDirectory($"{outputLocation}\\addon-release-temp\\{activeRootNode.self.info.Name}", $"{outputLocation}\\addon-release.zip");
+			} catch {
+				PrintToConsole("Packing addon failed! A zip with that name possibly already exists!");
+			}
+			Directory.Delete($"{outputLocation}\\addon-release-temp", true);
+		}
+
+		private void CopyEnabledFiles(DirectoryNode node, string rootParentDir, string outputLocation) {
+			var dirPath = node.self.info.FullName.Replace(rootParentDir, outputLocation);
+			if(node.self.enabled && !Directory.Exists(dirPath)) {
+				Directory.CreateDirectory(dirPath);
+			}
+			foreach(var file in node.files) {
+				if(file.enabled) {
+					File.Copy(file.info.FullName, file.info.FullName.Replace(rootParentDir, outputLocation));
+				}
+			}
+			foreach(var dir in node.directories) {
+				CopyEnabledFiles(dir, rootParentDir, outputLocation);
+			}
 		}
 
 		private void OpenInputExplorer(object sender, RoutedEventArgs e) {
