@@ -61,16 +61,16 @@ namespace AddonCleaner {
 
 			string addonName;
 			ValidateInputBox("AddonNameInput", out addonName);
-			if(addonName == null) { PrintToConsole("Invalid addon name"); return; }
+			if(addonName.Replace(" ", "") == "") { PrintToConsole("Invalid addon name!"); return; }
 
 			// technically not used since the activeRootNode gets set as soon as you select a directory
 			string inputPath;
 			ValidateInputBox("InputLocation", out inputPath);
-			if(addonName == null) { PrintToConsole("Invalid input directory"); return; }
+			if(inputPath.Replace(" ", "") == "") { PrintToConsole("Invalid input directory!"); return; }
 
 			string outputPath;
 			ValidateInputBox("OutputLocation", out outputPath);
-			if(addonName == null) { PrintToConsole("Invalid output directory"); return; }
+			if(outputPath.Replace(" ", "") == "") { PrintToConsole("Invalid output directory!"); return; }
 
 			var rootParentDir = activeRootNode.self.info.Parent.FullName;
 
@@ -174,6 +174,9 @@ namespace AddonCleaner {
 
 		private static void selection_node_checked(object sender, RoutedEventArgs e) {
 			if(sender is SelectionNode selection) {
+
+				// switch might be silly here but it's nice and inlined
+
 				if(selection.selectionItem is SelectionDirectory dir) {
 					switch(selection.IsChecked) {
 						case true: dir.node.EnableRecursively(); break;
@@ -185,6 +188,7 @@ namespace AddonCleaner {
 						case false: file.Disable(); break;
 					}
 				}
+
 				// make sure ascending dir gets enabled/disabled accordingly
 				// example: all files are disabled = disable folder
 				//			folder is disabled but file is enabled = enable folders

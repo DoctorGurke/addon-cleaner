@@ -99,6 +99,7 @@ namespace AddonCleaner.Type {
 			}
 		}
 
+		// used for debug
 		public void PrintTree() {
 			{ // scope for reusable indentString var
 				var indentString = "";
@@ -117,19 +118,6 @@ namespace AddonCleaner.Type {
 				}
 				MainWindow.PrintToConsole($"{indentString}f {file.info.Name} {file.enabled}");
 			}
-		}
-
-		public string[] GetFilesRecursively(HashSet<string> fileList = null) {
-			var set = fileList;
-			if(set == null)
-				set = new HashSet<string>();
-			foreach(var file in files.Where((f) => f.enabled)) {
-				set.Add(file.info.FullName);
-			}
-			foreach(var dir in directories.Where((d) => d.self.enabled)) {
-				dir.GetFilesRecursively(set);
-			}
-			return set.ToArray();
 		}
 	}
 }

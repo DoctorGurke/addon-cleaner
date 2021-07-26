@@ -19,10 +19,10 @@ namespace AddonCleaner.Type {
 				case ".vmat_c": // material
 				case ".vtex_c": // texture
 				case ".vsnd_c": // sound
-				case ".sound_c": // sount asset
+				case ".sound_c": // sound asset
 				case ".decal_c": // decal asset
 				case ".surface_c": // surface asset
-				case ".vpk": // archive, usually a map
+				case ".vpk": // valve archive, usually a map in addons
 
 				// code 
 				case ".cs": // csharp
