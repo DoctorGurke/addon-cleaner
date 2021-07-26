@@ -17,6 +17,7 @@ namespace AddonCleaner.Type {
 			switch(info.Name) {
 				case "obj":
 				case "Properties":
+				case "_bakeresourcecache":
 					return false;
 			}
 			return true;

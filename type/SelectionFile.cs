@@ -14,11 +14,13 @@ namespace AddonCleaner.Type {
 		private bool VerifyFile() {
 			switch(info.Extension) {
 				// assets
+				case ".ttf": // font
 				case ".vmdl_c": // model
 				case ".vpcf_c": // particle
 				case ".vmat_c": // material
 				case ".vtex_c": // texture
 				case ".vsnd_c": // sound
+				case ".vanmgrph_c": // animgraph file
 				case ".sound_c": // sound asset
 				case ".decal_c": // decal asset
 				case ".surface_c": // surface asset
